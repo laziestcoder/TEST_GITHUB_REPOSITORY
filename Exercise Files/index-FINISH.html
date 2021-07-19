@@ -1,0 +1,168 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Adding 2 Numbers | Happy Learning!</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  </head>
+<body onload="playGame()">
+	<!-- 
+Join the 'Happy Learning' Team in slack, where we will discuss 
+everything about technology and you can also get help from the peers!
+
+https://happy-learning.herokuapp.com/ 
+-->
+<a href="https://happy-learning.herokuapp.com/ " target="_blank"><img alt="Join Slack" height="40" width="139" src="http://i.imgur.com/0Lne5Vr.png"/></a>
+<div>
+	<h1>Adding Game</h1>
+
+	<p id="demo">In this lecture, we will cover the game to add 2 numbers.</p>
+</div>
+<hr>
+
+<div class="quiz">
+  <div class="quiz-content">
+    <div class="question">
+    What is the sum of <span class="text-info" id="field1">5</span> and <span class="text-info" id="field2">5</span>?
+    </div>
+    <div class="options">
+      <div class="fields animated zoomIn">
+        <div class="field-block" id="option1" onclick="checkAnswer(this)">
+          10
+        </div>
+      </div>
+      <div class="fields animated zoomIn">
+        <div class="field-block" id="option2" onclick="checkAnswer(this)">
+          10
+        </div>
+      </div>
+      <div class="fields animated zoomIn">
+        <div class="field-block" id="option3" onclick="checkAnswer(this)">
+          10
+        </div>
+      </div>
+      <div class="fields animated zoomIn">
+        <div class="field-block" id="option4" onclick="checkAnswer(this)">
+          10
+        </div>
+      </div>
+    </div>
+    <div class="after hide" id="after">
+
+    </div>
+    <div class="play-again">
+      <a class="button" onclick="playAgain()">Play Again</a>
+    </div>
+  </div>
+</div>
+
+<script>
+
+//let's write our script here!
+
+ var riddle = {};
+
+ function randomNumber(min, max) {
+  return Math.floor(Math.random() * (max-min+1) + min);
+ }
+
+ function playGame() {
+
+  var field1 = randomNumber(20, 50);
+  var field2 = randomNumber(20, 50);
+  var result = field1 + field2;
+
+  var resultsArray = generateRandomeOptions(result);
+  resultsArray.push(result);
+  resultsArray.sort(function(a, b) {return 0.5 - Math.random()});
+
+  riddle = {
+    field1: field1,
+    field2: field2,
+    resultsArray: resultsArray,
+    answer: result
+   };
+
+   document.getElementById('field1').innerHTML = riddle.field1;
+   document.getElementById('field2').innerHTML = riddle.field2;
+   document.getElementById('option1').innerHTML= riddle.resultsArray[0];
+   document.getElementById('option2').innerHTML= riddle.resultsArray[1];
+   document.getElementById('option3').innerHTML= riddle.resultsArray[2];
+   document.getElementById('option4').innerHTML= riddle.resultsArray[3];
+ }
+
+ function  generateRandomeOptions(sum) {
+   var resultsArray = [];
+   var randomNumberArray = [];
+
+   while(randomNumberArray.length < 3) {
+    var random = randomNumber(1,10);
+    if(randomNumberArray.indexOf(random) > -1) continue;
+    randomNumberArray.push(random);
+   }
+
+   // console.log(randomNumberArray, addSubtract);
+
+   for(var i=0; i < 3; i++) {
+      var addSubtract = randomNumber(0,1);
+      var result = sum;
+
+      if (addSubtract === 1) {
+        //add random number to the result
+        result += randomNumberArray[i];
+       } else {
+        //subtract random number from the result
+        result -= randomNumberArray[i];
+       }
+       resultsArray.push(result);
+   }
+
+   return resultsArray;
+ }
+
+ function checkAnswer(selectedElement) {
+  console.log(riddle);
+  console.log(selectedElement.innerHTML);
+
+  var after = document.getElementById('after');
+
+  if(selectedElement.innerHTML == riddle.answer) {
+    //correct answer
+    after.classList.remove('hide');
+    after.classList.add('correct');
+    after.classList.add('animated');
+    after.classList.add('zoomInDown');
+    after.innerHTML = "Good Job! Hit the button below to play again!"
+
+  } else {
+    //wrong answer
+    after.classList.remove('hide');
+    after.classList.add('wrong');
+    after.classList.add('animated');
+    after.classList.add('zoomInDown');
+    after.innerHTML = "ohhh ohhh! Hit the button below to play again!"
+  }
+
+ }
+
+ function playAgain() {
+  var after = document.getElementById('after');
+  after.classList.remove('wrong');
+  after.classList.remove('correct');
+  after.classList.add('hide');
+  playGame();
+ }
+	
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+

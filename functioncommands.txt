@@ -1,0 +1,4 @@
+ window.alert()
+ document.write()
+ innerHTML
+ console.log()
